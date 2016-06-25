@@ -1,9 +1,8 @@
-process((props) => {
-  /**
-   * process will pass the props to this function,
-   * and for your convenience the props are rendered
-   * under the editor
-   */
 
-  return [1,2,3]
-})
+const editorCode = (props) => {
+
+  return [1, 2]
+
+}
+
+process(editorCode)

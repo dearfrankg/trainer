@@ -4,7 +4,17 @@ const initialState = {
   list: [
     {
       prompt: 'do something to return an array of [1,2,3]',
-      codeResult: '',
+      code: 'blank',
+      correctResult: [1, 2, 3],
+      props: {
+        movielist: movieLists2(),
+        videos: ['one', 'two', 'three'],
+        bookmarks: ['x', 'y', 'z']
+      }
+    },
+    {
+      prompt: 'question #2',
+      code: 'blank',
       correctResult: [1, 2, 3],
       props: {
         movielist: movieLists2(),
@@ -18,17 +28,20 @@ const initialState = {
 
 const questions = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_CODE_RESULT:
+    case types.SET_CODE:
       return {
         ...state,
         list: [
           ...state.list.slice(0, action.index),
-          {...state.list[action.index], codeResult: action.codeResult},
+          {...state.list[action.index], code: action.code},
           ...state.list.slice(action.index + 1)
         ]
       }
 
     case types.SET_INDEX:
+      if (action.index < 0 || action.index === state.list.length) {
+        return state
+      }
       return {
         ...state,
         index: action.index

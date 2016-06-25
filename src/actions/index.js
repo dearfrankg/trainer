@@ -1,7 +1,7 @@
 import * as types from 'constants/actionTypes'
 
-export const setCodeResult = (index, codeResult) => ({
-  type: types.SET_CODE_RESULT, index, codeResult
+export const setCode = (index, code) => ({
+  type: types.SET_CODE, index, code
 })
 
 export const setIndex = (index) => ({
