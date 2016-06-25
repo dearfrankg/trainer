@@ -33,7 +33,7 @@ const questions = (state = initialState, action) => {
         ...state,
         list: [
           ...state.list.slice(0, action.index),
-          {...state.list[action.index], code: action.code},
+          {...state.list[action.index], code: action.code, solved: action.solved, runResult: action.runResult},
           ...state.list.slice(action.index + 1)
         ]
       }

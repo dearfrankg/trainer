@@ -11,47 +11,23 @@ import compile from 'utils/compiler'
 
 class Code extends Component {
 
-  constructor () {
-    super()
-    this.state = {
-      codeResult: '<<<<HELLO>>>>'
-    }
-  }
-
-  setCodeResult = (codeResult) => {
-    this.setState({codeResult: codeResult})
-    console.log(22, this.state.codeResult)
-  }
-
-  // process = (editorCodeFn) => {
-  //   const matchObjects = (a, b) => {
-  //     return JSON.stringify(a) === JSON.stringify(b) // eslint-disable-line
-  //   }
-  //   const {correctResult, props} = this.props
-  //   const codeResult = editorCodeFn(props)
-  //   // this.setCodeResult(codeResult)
-  //   console.log(codeResult, correctResult)
-  //   const result = matchObjects(codeResult, correctResult)
-  //     ? 'SUCCESS'
-  //     : 'FAILURE'
-  //   console.log(result, codeResult)
-  // }
-
-  calculateSuccess = ({codeResult, correctResult, props}) => {
+  calculateSuccess = ({correctResult, props, questionIndex, actions}, codeResult) => {
+    console.log(25, codeResult, correctResult, props)
     const matchObjects = (a, b) => {
       return JSON.stringify(a) === JSON.stringify(b) // eslint-disable-line
     }
-    const isCorrectResult = matchObjects(codeResult, correctResult)
-    console.log('isCorrectResult', isCorrectResult)
-    actions.setSuccess(props.questionIndex, isCorrectResult)
+    const solved = matchObjects(codeResult, correctResult)
+    return solved
   }
 
-  runCode = (code, props, scope = {}) => {
+  runCode = (code, codeProps) => {
+    const { props: questionData } = codeProps
+    const scope = { questionData }
     try {
       const compiledCode = compile(code, scope)
-      const runResult = eval(compiledCode).apply(null, scope)
-      this.calculateSuccess(props)
-      actions.setCode(props.questionIndex, code)
+      const runResult = eval(compiledCode).apply(null, [scope.questionData])
+      const solved = this.calculateSuccess(codeProps, runResult)
+      codeProps.actions.setCode(codeProps.questionIndex, code, solved, runResult)
       return runResult
     } catch (e) {
       return 'error'
@@ -59,26 +35,21 @@ class Code extends Component {
   }
 
   render = () => {
-    const {questionIndex, correctResult, code, props, actions} = this.props
-    const editorData = props
-
+    const {questionIndex, correctResult, code, props: questionData, actions} = this.props
     return (
       <div>
         <h3>code</h3>
 
         <textarea onChange={(e) => {
-          this.runCode(e.target.value, editorData)
+          this.runCode(e.target.value, this.props)
         }} />
 
         <Playground
           className='playground'
           es6Console
           codeText={code}
-          scope={{ React: React, editorData }} />
+          scope={{ React: React, questionData }} />
 
-        <div id='stuff' />
-
-        <Dump title='result' data={this.state.codeResult} />
         <br />
 
         <button

@@ -16,8 +16,14 @@ const App = ({question, questionIndex, actions}) => (
       </section>
 
       <section className='right'>
-        <Dump title='correct result' data={question.correctResult} />
-        <Dump title='code result' data={question.codeResult} />
+        {question.solved
+          ? <div className='solved'>
+              <i className='ion-record'></i>
+              <i className='ion-checkmark'></i>
+            </div>
+          : <Dump title='correct result' data={question.correctResult} />
+        }
+        <Dump title='code result' data={question.runResult} />
       </section>
     </div>
   </div>
