@@ -5,34 +5,59 @@ import { bindActionCreators } from 'redux'
 import Code from 'components/Code'
 import Dump from 'components/Dump'
 import Text from 'components/Text'
+import Select from 'components/Select'
 
-const App = ({question, questionIndex, actions}) => (
-  <div>
-    <div className='app-container'>
-      <section className='left'>
-        <Text title='index' data={questionIndex} />
-        <Text title='instructions' data={question.prompt} />
+const renderSolved = () => (
+  <div className='solved'>
+    <h3>code result</h3>
+    <i className='ion-record'></i>
+    <i className='ion-checkmark-circled'></i>
+  </div>
+)
+
+const App = ({quizSelect, currentProblemIndex, currentProblem}) => (
+  <div className='app'>
+    <Select {...quizSelect} />
+
+    <Text
+      className='description'
+      title={`Problem Number ${currentProblemIndex + 1}`}
+      data={currentProblem.description} />
+
+    <section className='code'>
+      <div className='left'>
         <Code />
-      </section>
-
-      <section className='right'>
-        {question.solved
-          ? <div className='solved'>
-              <i className='ion-record'></i>
-              <i className='ion-checkmark'></i>
-            </div>
-          : <Dump title='correct result' data={question.correctResult} />
+      </div>
+      <div className='right'>
+        {currentProblem.user.solved
+          ? renderSolved()
+          : <Dump title='code result' data={currentProblem.user.result} />
         }
-        <Dump title='code result' data={question.runResult} />
-      </section>
-    </div>
+        <Dump title='correct result' data={currentProblem.solution.result} />
+      </div>
+    </section>
+
+    <Dump
+      title='problemData'
+      data={currentProblem.data} />
+
   </div>
 )
 
 export default connect(
   (state) => ({
-    question: state.questions.list[state.questions.index],
-    questionIndex: state.questions.index
+    quizSelect: {
+      title: 'quiz list: ',
+      options: state.quizList.reduce((a, c) => {
+        a.push(c.quizName)
+        return a
+      }, []).sort(),
+      selected: state.UI.currentQuizIndex
+    },
+    currentProblemIndex: state.UI.currentProblemIndex,
+    currentProblem:
+      state.quizList[state.UI.currentQuizIndex]
+        .problemList[state.UI.currentProblemIndex]
   }),
   (dispatch) => ({
     actions: bindActionCreators(actions, dispatch)

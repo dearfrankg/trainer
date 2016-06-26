@@ -1,8 +1,0 @@
-
-const editorCode = (props) => {
-
-  return [1, 2]
-
-}
-
-process(editorCode)

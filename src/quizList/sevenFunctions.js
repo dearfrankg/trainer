@@ -1,58 +1,42 @@
-import * as types from 'constants/actionTypes'
-
-const initialState = {
-  list: [
+export default {
+  quizName: 'seven functions',
+  problemList: [
     {
-      prompt: 'do something to return an array of [1,2,3]',
-      code: 'blank',
-      correctResult: [1, 2, 3],
-      props: {
+      description: 'do something to return an array of [1,2,3]',
+      data: {
         movielist: movieLists2(),
         videos: ['one', 'two', 'three'],
         bookmarks: ['x', 'y', 'z']
+      },
+      user: {
+        algorithm: '',
+        result: '',
+        solved: false
+      },
+      solution: {
+        algorithm: '',
+        result: [1, 2, 3]
       }
     },
     {
-      prompt: 'question #2',
-      code: 'blank',
-      correctResult: [1, 2, 3],
-      props: {
+      description: 'do something to return an array of [1,2,3]',
+      data: {
         movielist: movieLists2(),
         videos: ['one', 'two', 'three'],
         bookmarks: ['x', 'y', 'z']
+      },
+      user: {
+        algorithm: '',
+        result: '',
+        solved: false
+      },
+      solution: {
+        algorithm: '',
+        result: [1, 2, 3]
       }
     }
-  ],
-  index: 0
+  ]
 }
-
-const questions = (state = initialState, action) => {
-  switch (action.type) {
-    case types.SET_CODE:
-      return {
-        ...state,
-        list: [
-          ...state.list.slice(0, action.index),
-          {...state.list[action.index], code: action.code, solved: action.solved, runResult: action.runResult},
-          ...state.list.slice(action.index + 1)
-        ]
-      }
-
-    case types.SET_INDEX:
-      if (action.index < 0 || action.index === state.list.length) {
-        return state
-      }
-      return {
-        ...state,
-        index: action.index
-      }
-
-    default:
-      return state
-  }
-}
-
-export default questions
 
 function movieLists2 () {
   return [

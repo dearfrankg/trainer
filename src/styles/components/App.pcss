@@ -1,22 +1,74 @@
 
-.app-container {
-  margin: 0 auto;
+.app {
+  margin: 20px auto;
   width: 90%;
-  display: flex;
-  flex-grow: 1;
-  justify-content: space-between;
 
+  .description {
+    font-size: 1.5em;
+  }
 
-  section {
+  section.code {
+    display: flex;
     flex-grow: 1;
-    padding: 20px;
+    justify-content: space-between;
+
+    .left,
+    .right {
+      flex-grow: 1;
+
+      textarea {
+        width: 100%;
+        height: 300px;
+      }
+    }
+
+    .left {
+      padding-right: 40px;
+    }
+
+
   }
 
-  .left {
-    max-width: 60%;
+  .solved {
+    position: relative;
+    height: 240px;
+
+    .ion-record,
+    .ion-checkmark-circled {
+      position: absolute;
+      top: 30px;
+      left: 40px;
+      right: 50px;
+      font-size: 15em;
+      color: white;
+    }
+
+    .ion-checkmark-circled {
+      color: green;
+    }
   }
+
+
+
+}
+
+
+
+
+
+    /*
+    max-width: 60%;
+
+    textarea {
+      width: 100%;
+      height: 100px;
+    }
+  }
+
 
   .right {
+    flex-grow: 1;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     min-width: 40%;
@@ -26,28 +78,23 @@
     }
   }
 
-  .dump {
-    font-size: 80%;
-  }
 
   .solved {
     position: relative;
+
+    .ion-record,
+    .ion-checkmark-circled {
+      position: absolute;
+      top: 0;
+      left: 50px;
+      right: 50px;
+      font-size: 15em;
+      color: white;
+    }
+
+    .ion-checkmark-circled {
+      color: green;
+    }
   }
 
-  .ion-record {
-    top: 0;
-    left: 0;
-    position: absolute;
-    font-size: 15em;
-    color: green;
-  }
-
-  .ion-checkmark {
-    top: 40px;
-    left: 30px;
-    position: absolute;
-    font-size: 10em;
-    color: white;
-  }
-
-}
+}*/

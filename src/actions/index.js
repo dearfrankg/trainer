@@ -1,9 +1,13 @@
 import * as types from 'constants/actionTypes'
 
-export const setCode = (index, code, solved, runResult) => ({
-  type: types.SET_CODE, index, code, solved, runResult
+export const setCurrentQuizIndex = (currentQuizIndex, quizListLength) => ({
+  type: types.SET_CURRENT_QUIZ_INDEX, currentQuizIndex, quizListLength
 })
 
-export const setIndex = (index) => ({
-  type: types.SET_INDEX, index
+export const setCurrentProblemIndex = (currentProblemIndex, problemListLength) => ({
+  type: types.SET_CURRENT_PROBLEM_INDEX, currentProblemIndex, problemListLength
+})
+
+export const setUserInfo = (payload) => ({
+  type: types.SET_USER_INFO, ...payload
 })
