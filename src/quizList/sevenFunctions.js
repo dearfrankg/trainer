@@ -43,9 +43,111 @@ return newReleases.map((movie) => ({ id: movie.id, title: movie.title }))
           { id: 675465, title: 'Fracture' }
         ]
       }
-    }
+    },
+    {
+      description: 'Capture videos with 5.0 rating using filter.',
+      data: {
+        newReleases: newReleases()
+      },
+      user: {
+        algorithm: '',
+        result: '',
+        solved: false
+      },
+      solution: {
+        algorithm: `
+const {newReleases} = problemData
+return newReleases.filter((movie) => movie.rating == 5.0)
+        `,
+        result: [
+          { id: 654356453,
+            title: 'Bad Boys',
+            boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys.jpg',
+            uri: 'http://api.netflix.com/catalog/titles/movies/70111470',
+            rating: [ 5 ],
+            bookmark: [
+              { id: 432534, time: 65876586 }
+            ]
+          },
+          { id: 675465,
+            title: 'Fracture',
+            boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture.jpg',
+            uri: 'http://api.netflix.com/catalog/titles/movies/70111470',
+            rating: [ 5 ],
+            bookmark: [
+              { id: 432534, time: 65876586 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      description: 'Capture id of videos with 5.0 rating using chain of filter and map.',
+      data: {
+        newReleases: newReleases()
+      },
+      user: {
+        algorithm: '',
+        result: '',
+        solved: false
+      },
+      solution: {
+        algorithm: `
+const {newReleases} = problemData
+return newReleases
+  .filter(movie => movie.rating == 5.0)
+  .map(movie => movie.id)
+        `,
+        result: [ 654356453, 675465 ]
+      }
+    },
+    {
+      description: 'Flatten the movieLists array into an array of video ids.',
+      data: {
+        movieLists: movieLists()
+      },
+      user: {
+        algorithm: '',
+        result: '',
+        solved: false
+      },
+      solution: {
+        algorithm: `
+const {movieLists} = problemData
+return movieLists
+  .reduce((acc, category) => {
+    category.videos.forEach(movie => acc.push(movie.id))
+    return acc
+  }, [])
+        `,
+        result: [ 70111470, 654356453, 65432445, 675465 ]
+      }
+    },
+
+
+
+
+
+
   ]
 }
+
+/**
+
+{
+  title: 'Flatten the movieLists array into an array of video ids',
+  code: () => {
+    const data = movieLists()
+    return data
+      .reduce((acc, category) => {
+        category.videos.forEach(movie => acc.push(movie.id))
+        return acc
+      }, [])
+  },
+  correctResult: [ 70111470, 654356453, 65432445, 675465 ]
+},
+
+**/
 
 function names () {
   return ['one', 'two', 'three']
@@ -67,7 +169,7 @@ function newReleases () {
       'boxart': 'http://cdn-0.nflximg.com/images/2891/BadBoys.jpg',
       'uri': 'http://api.netflix.com/catalog/titles/movies/70111470',
       'rating': [5.0],
-      'bookmark': [{ id:432534, time:65876586 }]
+      'bookmark': [{ id: 432534, time: 65876586 }]
     },
     {
       'id': 65432445,

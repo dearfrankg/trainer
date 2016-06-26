@@ -9,8 +9,7 @@ import Select from 'components/Select'
 
 const renderSolved = () => (
   <div className='solved'>
-    <h3>code result</h3>
-    <i className='ion-record'></i>
+    <h3>code result is correct</h3>
     <i className='ion-checkmark-circled'></i>
   </div>
 )
@@ -26,16 +25,17 @@ const App = ({quizSelect, currentProblemIndex, currentProblem}) => (
         data={currentProblem.description} />
 
       <section className='code'>
-        <div className='left'>
-          <Code />
-        </div>
-        <div className='right'>
-          {currentProblem.user.solved
-            ? renderSolved()
-            : <Dump title='code result' data={currentProblem.user.result} />
-          }
-          <Dump title='correct result' data={currentProblem.solution.result} />
-        </div>
+
+        <Code />
+
+        {currentProblem.user.solved
+          ? renderSolved()
+          : <Dump title='code result' data={currentProblem.user.result} />
+
+        }
+
+        <Dump title='correct result' data={currentProblem.solution.result} />
+
       </section>
     </div>
 
