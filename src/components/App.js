@@ -19,23 +19,25 @@ const App = ({quizSelect, currentProblemIndex, currentProblem}) => (
   <div className='app'>
     <Select {...quizSelect} />
 
-    <Text
-      className='description'
-      title={`Problem Number ${currentProblemIndex + 1}`}
-      data={currentProblem.description} />
+    <div className='card'>
+      <Text
+        className='description'
+        title={`Problem Number ${currentProblemIndex + 1}`}
+        data={currentProblem.description} />
 
-    <section className='code'>
-      <div className='left'>
-        <Code />
-      </div>
-      <div className='right'>
-        {currentProblem.user.solved
-          ? renderSolved()
-          : <Dump title='code result' data={currentProblem.user.result} />
-        }
-        <Dump title='correct result' data={currentProblem.solution.result} />
-      </div>
-    </section>
+      <section className='code'>
+        <div className='left'>
+          <Code />
+        </div>
+        <div className='right'>
+          {currentProblem.user.solved
+            ? renderSolved()
+            : <Dump title='code result' data={currentProblem.user.result} />
+          }
+          <Dump title='correct result' data={currentProblem.solution.result} />
+        </div>
+      </section>
+    </div>
 
     <Dump
       title='problemData'
