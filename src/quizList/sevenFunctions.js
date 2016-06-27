@@ -123,6 +123,26 @@ return movieLists
         result: [ 70111470, 654356453, 65432445, 675465 ]
       }
     },
+    {
+      description: 'Flatten the movieLists array into an array of video ids using map and concatAll.',
+      data: {
+        movieLists: movieLists()
+      },
+      user: {
+        algorithm: '',
+        result: '',
+        solved: false
+      },
+      solution: {
+        algorithm: `
+const {movieLists} = problemData
+return movieLists
+  .map(category => category.videos.map(video => video.id))
+  .concatAll()
+        `,
+        result: [ 70111470, 654356453, 65432445, 675465 ]
+      }
+    },
 
 
 
@@ -135,14 +155,12 @@ return movieLists
 /**
 
 {
-  title: 'Flatten the movieLists array into an array of video ids',
+  title: 'Flatten the movieLists array into an array of video ids using map and concatAll',
   code: () => {
     const data = movieLists()
     return data
-      .reduce((acc, category) => {
-        category.videos.forEach(movie => acc.push(movie.id))
-        return acc
-      }, [])
+      .map(category => category.videos.map(video => video.id))
+      .concatAll()
   },
   correctResult: [ 70111470, 654356453, 65432445, 675465 ]
 },
@@ -418,3 +436,12 @@ function powerBookmarks () {
     { videoId: 654356453, time: 984934 }
   ]
 }
+
+!(function setupArrayMethods () {
+  Array.prototype.concatAll = function () { //eslint-disable-line
+    return this.reduce((acc, curr, i) => {
+      curr.forEach((item) => acc.push(item))
+      return acc
+    }, [])
+  }
+})()

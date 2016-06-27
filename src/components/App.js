@@ -6,6 +6,7 @@ import Code from 'components/Code'
 import Dump from 'components/Dump'
 import Text from 'components/Text'
 import Select from 'components/Select'
+import NavBar from 'components/NavBar'
 
 const renderSolved = () => (
   <div className='solved'>
@@ -19,6 +20,8 @@ const App = ({quizSelect, currentProblemIndex, currentProblem}) => (
     <Select {...quizSelect} />
 
     <div className='card'>
+      <NavBar />
+
       <Text
         className='description'
         title={`Problem Number ${currentProblemIndex + 1}`}
