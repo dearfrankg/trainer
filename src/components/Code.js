@@ -32,12 +32,14 @@ class Code extends Component {
   }
 
   render = () => {
+    let codeTextArea
     const {currentProblemIndex, problemListLength, currentProblem, actions} = this.props
     return (
       <div className='code'>
         <textarea
           value={currentProblem.user.algorithm}
           disabled={currentProblem.user.solved}
+          ref={(node) => { codeTextArea = node }}
           onChange={(e) => {
             this.runCode(e.target.value, this.props)
           }} />
@@ -56,7 +58,11 @@ class Code extends Component {
 
         <button
           className='pure-button pure-button-primary'
-          onClick={() => 1} >Solve</button>{' '}
+          onClick={() => {
+            const algorithm = currentProblem.solution.algorithm
+            codeTextArea.value = algorithm
+            this.runCode(algorithm, this.props)
+          }} >Solve</button>{' '}
       </div>
     )
   }
