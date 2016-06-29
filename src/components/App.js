@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import * as actions from 'actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -7,6 +7,7 @@ import Dump from 'components/Dump'
 import Text from 'components/Text'
 import Select from 'components/Select'
 import NavBar from 'components/NavBar'
+import * as keyCodes from 'constants/keyCodes'
 
 const renderSolved = () => (
   <div className='solved'>
@@ -15,39 +16,73 @@ const renderSolved = () => (
   </div>
 )
 
-const App = ({quizSelect, currentProblemIndex, currentProblem}) => (
-  <div className='app'>
-    <Select {...quizSelect} />
+class App extends Component {
 
-    <div className='card'>
-      <NavBar />
+  componentWillMount () {
+    document.addEventListener('keydown', this.handleKeyDown)
+  }
 
-      <Text
-        className='description'
-        title={`Problem Number ${currentProblemIndex + 1}`}
-        data={currentProblem.description} />
+  componentWillUnmount () {
+    document.removeEventListener('keydown', this.handleKeyDown)
+  }
 
-      <section className='code'>
-
-        <Code />
-
-        {currentProblem.user.solved
-          ? renderSolved()
-          : <Dump title='code result' data={currentProblem.user.result} />
-
+  handleKeyDown = (e) => {
+    const key = e.which
+    const {currentProblemIndex, problemListLength, actions} = this.props
+    const keyCodesArray = [keyCodes.BACKSPACE, keyCodes.LEFT, keyCodes.RIGHT]
+    if (keyCodesArray.includes(key)) {
+      e.preventDefault()
+      const handlers = {
+        [keyCodes.LEFT]: () => {
+          actions.setCurrentProblemIndex(currentProblemIndex - 1, problemListLength)
+        },
+        [keyCodes.RIGHT]: () => {
+          actions.setCurrentProblemIndex(currentProblemIndex + 1, problemListLength)
         }
+      }
+      if (key in handlers) {
+        handlers[key]()
+      }
+    }
+  }
 
-        <Dump title='correct result' data={currentProblem.solution.result} />
+  render () {
+    const {quizSelect, currentProblemIndex, currentProblem} = this.props
+    return (
+      <div className='app'>
+        <Select {...quizSelect} />
 
-      </section>
-    </div>
+        <div className='card'>
+          <NavBar />
 
-    <Dump
-      title='problemData'
-      data={currentProblem.data} />
+          <Text
+            className='description'
+            title={`Problem Number ${currentProblemIndex + 1}`}
+            data={currentProblem.description} />
 
-  </div>
-)
+          <section className='code'>
+
+            <Code />
+
+            {currentProblem.user.solved
+              ? renderSolved()
+              : <Dump title='code result' data={currentProblem.user.result} />
+
+            }
+
+            <Dump title='correct result' data={currentProblem.solution.result} />
+
+          </section>
+        </div>
+
+        <Dump
+          title='problemData'
+          data={currentProblem.data} />
+
+      </div>
+    )
+  }
+}
 
 export default connect(
   (state) => ({
@@ -60,6 +95,9 @@ export default connect(
       selected: state.UI.currentQuizIndex
     },
     currentProblemIndex: state.UI.currentProblemIndex,
+    problemListLength:
+      state.quizList[state.UI.currentQuizIndex]
+        .problemList.length,
     currentProblem:
       state.quizList[state.UI.currentQuizIndex]
         .problemList[state.UI.currentProblemIndex]
