@@ -1,5 +1,5 @@
-import sevenFunctions from './sevenFunctions'
+import ApplyArrayMethods from './ApplyArrayMethods'
 
 export default [
-  sevenFunctions
+  ApplyArrayMethods
 ]

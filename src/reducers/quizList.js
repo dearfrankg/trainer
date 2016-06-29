@@ -5,6 +5,7 @@ import initialState from '../quizList'
         quizList = [
           {
             quizName: 'xxx',
+            quizStarted: false,
             problemList: [
               {
                 description: 'do something to return an array of [1,2,3]',

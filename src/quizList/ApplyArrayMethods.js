@@ -1,5 +1,9 @@
+import showdown from 'showdown'
+
 export default {
-  quizName: 'Seven array methods you should know',
+  quizName: 'Apply array methods',
+  quizIntro: intro(),
+  quizStarted: false,
   problemList: [
     {
       description: 'Traverse names using forEach to return an array of names.',
@@ -894,3 +898,11 @@ const setCustomArrayMethods = () => {
 }
 
 setCustomArrayMethods()
+
+function intro () {
+  const converter = new showdown.Converter()
+  const markdownText = `
+## Hello
+  `
+  return converter.makeHtml(markdownText)
+}
