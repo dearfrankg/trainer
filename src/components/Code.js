@@ -63,6 +63,13 @@ class Code extends Component {
             codeTextArea.value = algorithm
             this.runCode(algorithm, this.props)
           }} >Solve</button>{' '}
+
+        <button
+          className='pure-button pure-button-primary'
+          onClick={() => {
+            codeTextArea.value = ''
+            this.runCode('', this.props)
+          }} >Reset</button>{' '}
       </div>
     )
   }

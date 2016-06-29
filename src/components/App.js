@@ -31,7 +31,9 @@ class App extends Component {
     const {currentProblemIndex, problemListLength, actions} = this.props
     const keyCodesArray = [keyCodes.BACKSPACE, keyCodes.LEFT, keyCodes.RIGHT]
     if (keyCodesArray.includes(key)) {
-      e.preventDefault()
+      if (e.target.localName !== 'textarea') {
+        e.preventDefault()
+      }
       const handlers = {
         [keyCodes.LEFT]: () => {
           actions.setCurrentProblemIndex(currentProblemIndex - 1, problemListLength)
