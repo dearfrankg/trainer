@@ -204,11 +204,11 @@ return movieLists.map(category =>
         algorithm: `
 const {movieLists} = problemData
 return movieLists.concatMap(category =>
-  category.videos.concatMap(video => {
-    return video.boxarts
+  category.videos.concatMap(video =>
+    video.boxarts
       .filter(boxart => boxart.width === 150)
       .map(boxart => ({id: video.id, title: video.title, boxart: boxart.url}))
-  })
+  )
 )
         `,
         result: [
