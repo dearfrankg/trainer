@@ -3,20 +3,30 @@ import * as actions from 'actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-const QuizIntro = ({introHtml}) => {
-  console.log(introHtml)
+const QuizIntro = ({currentQuizIndex, introHtml, actions}) => {
   return (
     <div className='card'>
       <div
-        ref={(node) => { node.innerHTML = introHtml }}
+        ref={(node) => {
+          if (node) {
+            node.innerHTML = introHtml
+          }
+        }}
         className='intro' />
+      <div className='button-container'>
+        <button
+          onClick={() => { actions.setQuizStarted(true, currentQuizIndex) }}
+          className='pure-button pure-button-primary'
+          >Start Quiz</button>
+      </div>
     </div>
   )
 }
 
 export default connect(
   (state) => ({
-    introHtml: state.quizList[state.UI.currentQuizIndex].quizIntro
+    introHtml: state.quizList[state.UI.currentQuizIndex].quizIntro,
+    currentQuizIndex: state.UI.currentQuizIndex
   }),
   (dispatch) => ({
     actions: bindActionCreators(actions, dispatch)

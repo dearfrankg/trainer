@@ -16,7 +16,7 @@ const renderSolved = () => (
   </div>
 )
 
-class App extends Component {
+class QuizCards extends Component {
 
   componentWillMount () {
     document.addEventListener('keydown', this.handleKeyDown)
@@ -49,11 +49,9 @@ class App extends Component {
   }
 
   render () {
-    const {quizSelect, currentProblemIndex, currentProblem} = this.props
+    const {currentProblemIndex, currentProblem} = this.props
     return (
-      <div className='app'>
-        <Select {...quizSelect} />
-
+      <div>
         <div className='card'>
           <NavBar />
 
@@ -80,7 +78,9 @@ class App extends Component {
         <Dump
           title='problemData'
           data={currentProblem.data} />
-
+        <div className='app'>
+          Cards
+        </div>
       </div>
     )
   }
@@ -107,4 +107,6 @@ export default connect(
   (dispatch) => ({
     actions: bindActionCreators(actions, dispatch)
   })
-)(App)
+)(QuizCards)
+
+// <Select {...quizSelect} />

@@ -11,3 +11,7 @@ export const setCurrentProblemIndex = (currentProblemIndex, problemListLength) =
 export const setUserInfo = (payload) => ({
   type: types.SET_USER_INFO, ...payload
 })
+
+export const setQuizStarted = (quizStarted, currentQuizIndex) => ({
+  type: types.SET_QUIZ_STARTED, quizStarted, currentQuizIndex
+})

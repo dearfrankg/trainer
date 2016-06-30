@@ -66,6 +66,15 @@ const quizList = (state = initialState, action) => {
         ...state.slice(action.currentQuizIndex + 1)
       ]
 
+    case types.SET_QUIZ_STARTED:
+      return [
+        ...state.slice(0, action.currentQuizIndex),
+        {
+          ...state[action.currentQuizIndex],
+          quizStarted: action.quizStarted
+        },
+        ...state.slice(action.currentQuizIndex + 1)
+      ]
     default:
       return state
   }

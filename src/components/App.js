@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import QuizCards from 'components/QuizCards'
+import QuizCards from 'components/QuizCards'
 import QuizIntro from 'components/QuizIntro'
 import Select from 'components/Select'
 
@@ -8,7 +8,7 @@ const App = ({quizStarted, quizSelect}) => (
   <div className='app'>
     <Select {...quizSelect} />
     {quizStarted
-      ? <div />
+      ? <QuizCards />
       : <QuizIntro />
     }
   </div>
