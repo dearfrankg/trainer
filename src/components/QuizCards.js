@@ -41,6 +41,7 @@ class QuizCards extends Component {
     }
     if (keyCodesArray.includes(key)) {
       if (outsideTextArea && key in handlers) {
+        e.preventDefault()
         handlers[key]()
       }
     }
