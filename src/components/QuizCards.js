@@ -30,19 +30,17 @@ class QuizCards extends Component {
     const key = e.which
     const {currentProblemIndex, problemListLength, actions} = this.props
     const keyCodesArray = [keyCodes.BACKSPACE, keyCodes.LEFT, keyCodes.RIGHT]
+    const outsideTextArea = (e.target.localName !== 'textarea')
+    const handlers = {
+      [keyCodes.LEFT]: () => {
+        actions.setCurrentProblemIndex(currentProblemIndex - 1, problemListLength)
+      },
+      [keyCodes.RIGHT]: () => {
+        actions.setCurrentProblemIndex(currentProblemIndex + 1, problemListLength)
+      }
+    }
     if (keyCodesArray.includes(key)) {
-      if (e.target.localName !== 'textarea') {
-        e.preventDefault()
-      }
-      const handlers = {
-        [keyCodes.LEFT]: () => {
-          actions.setCurrentProblemIndex(currentProblemIndex - 1, problemListLength)
-        },
-        [keyCodes.RIGHT]: () => {
-          actions.setCurrentProblemIndex(currentProblemIndex + 1, problemListLength)
-        }
-      }
-      if (key in handlers) {
+      if (outsideTextArea && key in handlers) {
         handlers[key]()
       }
     }
@@ -78,9 +76,6 @@ class QuizCards extends Component {
         <Dump
           title='problemData'
           data={currentProblem.data} />
-        <div className='app'>
-          Cards
-        </div>
       </div>
     )
   }
