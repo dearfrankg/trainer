@@ -2,6 +2,7 @@ import React from 'react'
 import * as actions from 'actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import Button from 'components/Button'
 
 const QuizIntro = ({currentQuizIndex, introHtml, actions}) => {
   return (
@@ -14,10 +15,10 @@ const QuizIntro = ({currentQuizIndex, introHtml, actions}) => {
         }}
         className='intro' />
       <div className='button-container'>
-        <button
+        <Button
           onClick={() => { actions.setQuizStarted(true, currentQuizIndex) }}
-          className='pure-button pure-button-primary'
-          >Start Quiz</button>
+          title='Start Quiz'
+        />
       </div>
     </div>
   )

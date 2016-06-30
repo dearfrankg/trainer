@@ -4,6 +4,7 @@ import * as actions from 'actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import compile from 'utils/compiler'
+import Button from 'components/Button'
 
 class Code extends Component {
 
@@ -44,32 +45,32 @@ class Code extends Component {
             this.runCode(e.target.value, this.props)
           }} />
 
-        <button
-          className='pure-button pure-button-primary'
+        <Button
+          title='Prev'
           onClick={() =>
             actions.setCurrentProblemIndex(currentProblemIndex - 1, problemListLength)
-          } >Prev</button>{' '}
+          } />{' '}
 
-        <button
-          className='pure-button pure-button-primary'
+        <Button
+          title='Next'
           onClick={() =>
             actions.setCurrentProblemIndex(currentProblemIndex + 1, problemListLength)
-          } >Next</button>{' '}
+          } />{' '}
 
-        <button
-          className='pure-button pure-button-primary'
+        <Button
+          title='Solve'
           onClick={() => {
             const algorithm = currentProblem.solution.algorithm
             codeTextArea.value = algorithm
             this.runCode(algorithm, this.props)
-          }} >Solve</button>{' '}
+          }} />{' '}
 
-        <button
-          className='pure-button pure-button-primary'
+        <Button
+          title='Reset'
           onClick={() => {
             codeTextArea.value = ''
             this.runCode('', this.props)
-          }} >Reset</button>{' '}
+          }} />{' '}
       </div>
     )
   }
