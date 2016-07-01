@@ -902,7 +902,7 @@ setCustomArrayMethods()
 function intro () {
   const converter = new showdown.Converter()
   const markdownText = `
-## Hello
+## Apply Array Methods
   `
   return converter.makeHtml(markdownText)
 }
