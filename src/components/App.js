@@ -11,10 +11,8 @@ const App = ({quizStarted, quizSelect, quizListLength, actions}) => (
     <Select
       onChange={(index) => actions.setCurrentQuizIndex(index, quizListLength)}
       {...quizSelect} />
-    {quizStarted
-      ? <QuizCards />
-      : <QuizIntro />
-    }
+
+    {quizStarted ? <QuizCards /> : <QuizIntro />}
   </div>
 )
 

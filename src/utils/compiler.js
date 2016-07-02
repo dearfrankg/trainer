@@ -1,6 +1,6 @@
 import { transform } from 'babel-standalone';
 
-const compile = (code, scope) => {
+const compile = (code, scope = {}) => {
   return transform(`
     (function (${Object.keys(scope).join(',')}) {
       ${code}

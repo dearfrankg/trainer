@@ -897,7 +897,7 @@ const setCustomArrayMethods = () => {
   })
 }
 
-setCustomArrayMethods()
+// setCustomArrayMethods()
 
 function intro () {
   const converter = new showdown.Converter()

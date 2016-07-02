@@ -8,28 +8,47 @@ import Button from 'components/Button'
 
 class Code extends Component {
 
-  calculateSuccess = (correctResult, userResult) => {
-    return JSON.stringify(correctResult) === JSON.stringify(userResult)
-  }
-
-  runCode = (code, codeProps) => {
-    const { currentProblem } = codeProps
-    const scope = { problemData: currentProblem.data }
-    let runResult
+  compileAndRun = (code, scope = {}) => {
     try {
       const compiledCode = compile(code, scope)
-      runResult = eval(compiledCode).apply(null, [scope.problemData]) // eslint-disable-line
+      return eval(compiledCode).apply(null, [scope.problemData]) // eslint-disable-line
     } catch (e) {
-      runResult = 'error'
-    } finally {
-      codeProps.actions.setUserInfo({
-        currentQuizIndex: codeProps.currentQuizIndex,
-        currentProblemIndex: codeProps.currentProblemIndex,
-        algorithm: code,
-        result: runResult,
-        solved: this.calculateSuccess(currentProblem.solution.result, runResult)
-      })
+      return 'error'
     }
+  }
+
+  determineResult = (code, codeProps) => {
+    const { currentProblem } = codeProps
+    const scope = { problemData: currentProblem.data }
+    const info = {
+      code
+    }
+
+    const checkUserResultScript = `
+/*===== START =====*/
+// info object
+//.......................................
+const info = ${JSON.stringify(info, null, 2)}
+
+// user script
+//.......................................
+const userScript = () => {
+${code}
+}
+
+${currentProblem.solution.checkUserResult}
+
+/*===== END =====*/
+
+    `
+    const resultObject = this.compileAndRun(checkUserResultScript, scope)
+    codeProps.actions.setUserInfo({
+      currentQuizIndex: codeProps.currentQuizIndex,
+      currentProblemIndex: codeProps.currentProblemIndex,
+      algorithm: code,
+      result: resultObject.runResult,
+      solved: resultObject.successResult
+    })
   }
 
   render = () => {
@@ -42,7 +61,7 @@ class Code extends Component {
           disabled={currentProblem.user.solved}
           ref={(node) => { codeTextArea = node }}
           onChange={(e) => {
-            this.runCode(e.target.value, this.props)
+            this.determineResult(e.target.value, this.props)
           }} />
 
         <Button
@@ -62,14 +81,14 @@ class Code extends Component {
           onClick={() => {
             const algorithm = currentProblem.solution.algorithm
             codeTextArea.value = algorithm
-            this.runCode(algorithm, this.props)
+            this.determineResult(algorithm, this.props)
           }} />{' '}
 
         <Button
           title='Reset'
           onClick={() => {
             codeTextArea.value = ''
-            this.runCode('', this.props)
+            this.determineResult('', this.props)
           }} />{' '}
       </div>
     )
