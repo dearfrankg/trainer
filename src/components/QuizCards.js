@@ -56,7 +56,7 @@ class QuizCards extends Component {
 
           <Text
             className='description'
-            title={`Problem Number ${currentProblemIndex + 1}`}
+            title={`Problem Number ${currentProblemIndex + 1} – ${currentProblem.title}`}
             data={currentProblem.description} />
 
           <section className='code'>
