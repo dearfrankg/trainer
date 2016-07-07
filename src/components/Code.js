@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import compile from 'utils/compiler'
 import Button from 'components/Button'
+import jsonCompare from 'utils/jsonCompare'
+console.log(22, jsonCompare)
 
 class Code extends Component {
 
@@ -19,7 +21,11 @@ class Code extends Component {
 
   determineResult = (code, codeProps) => {
     const { currentProblem } = codeProps
-    const scope = { problemData: currentProblem.data }
+    const scope = {
+      problemData: currentProblem.data,
+      jsonCompare
+    }
+    console.log(23, scope)
     const info = {
       code
     }

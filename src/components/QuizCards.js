@@ -49,6 +49,8 @@ class QuizCards extends Component {
 
   render () {
     const {currentProblemIndex, currentProblem} = this.props
+    const problemNumber = currentProblemIndex + 1
+    const hyphen = (currentProblem.title ? ' – ' : '')
     return (
       <div>
         <div className='card'>
@@ -56,7 +58,7 @@ class QuizCards extends Component {
 
           <Text
             className='description'
-            title={`Problem Number ${currentProblemIndex + 1} – ${currentProblem.title}`}
+            title={`Problem Number ${problemNumber} ${hyphen} ${currentProblem.title}`}
             data={currentProblem.description} />
 
           <section className='code'>

@@ -1,4 +1,5 @@
 import showdown from 'showdown'
+import jsonCompare from 'utils/jsonCompare'
 
 export default {
   quizName: 'Apply array methods',
@@ -6,7 +7,8 @@ export default {
   quizStarted: false,
   problemList: [
     {
-      description: 'Traverse names using forEach to return an array of names.',
+      title: '',
+      description: 'Traverse names using xforEach to return an array of names.',
       data: {
         names: names()
       },
@@ -22,11 +24,15 @@ const result = []
 names.forEach((name) => result.push(name))
 return result
         `,
-        result: [ 'one', 'two', 'three' ]
+        result: [ 'one', 'two', 'three' ],
+        checkUserResult: `
+return jsonCompare(userScript(), [ 'one', 'two', 'three' ])
+        `
       }
     },
     {
-      description: 'Project a collection containing id and title using map.',
+      title: '',
+      description: 'Project a collection containing id and title using xmap.',
       data: {
         newReleases: newReleases()
       },
@@ -49,7 +55,8 @@ return newReleases.map((movie) => ({ id: movie.id, title: movie.title }))
       }
     },
     {
-      description: 'Capture videos with 5.0 rating using filter.',
+      title: '',
+      description: 'Capture videos with 5.0 rating using xfilter.',
       data: {
         newReleases: newReleases()
       },
@@ -86,7 +93,8 @@ return newReleases.filter((movie) => movie.rating == 5.0)
       }
     },
     {
-      description: 'Capture id of videos with 5.0 rating using chain of filter and map.',
+      title: '',
+      description: 'Capture id of videos with 5.0 rating using chain of xfilter and xmap.',
       data: {
         newReleases: newReleases()
       },
@@ -106,6 +114,7 @@ return newReleases
       }
     },
     {
+      title: '',
       description: 'Flatten the movieLists array into an array of video ids.',
       data: {
         movieLists: movieLists()
@@ -128,6 +137,7 @@ return movieLists
       }
     },
     {
+      title: '',
       description: 'Flatten the movieLists array into an array of video ids using map and concatAll.',
       data: {
         movieLists: movieLists()
@@ -148,6 +158,7 @@ return movieLists
       }
     },
     {
+      title: '',
       description: 'Retrieve id, title, and a 150x200 boxarts url for every video.',
       data: {
         movieLists: movieLists()
@@ -191,6 +202,7 @@ return movieLists.map(category =>
       }
     },
     {
+      title: '',
       description: 'Retrieve id, title, and a 150x200 boxarts url for every video using concatMap.',
       data: {
         movieLists: movieLists()
@@ -232,6 +244,7 @@ return movieLists.concatMap(category =>
       }
     },
     {
+      title: '',
       description: 'Use forEach to find the largest boxart.',
       data: {
         boxarts: boxarts()
@@ -264,6 +277,7 @@ return largestBoxart
       }
     },
     {
+      title: '',
       description: 'Use reduce to retrieve the largest rating.',
       data: {
         ratings: ratings()
@@ -282,6 +296,7 @@ return ratings.reduce((acc, curr) => (acc > curr) ? acc : curr, 0)
       }
     },
     {
+      title: '',
       description: 'Use reduce to retrieve the url of the largest boxart.',
       data: {
         boxarts: boxarts()
@@ -302,6 +317,7 @@ return boxarts
       }
     },
     {
+      title: '',
       description: 'Retrieve the id, title, and smallest box art url for every video.',
       data: {
         movieLists: movieLists()
@@ -335,6 +351,7 @@ return movieLists.concatMap(category =>
       }
     },
     {
+      title: '',
       description: 'Combine videos and bookmarks by index using for-loop.',
       data: {
         videos: videos(),
@@ -364,6 +381,7 @@ return videoIdAndBookmarkIdPairs;
       }
     },
     {
+      title: '',
       description: 'Combine videos and bookmarks by index using Array.zip.',
       data: {
         videos: videos(),
@@ -387,6 +405,7 @@ return Array.zip(videos, bookmarks, (a,b) => ({ videoId: a.id, bookmarkId: b.id 
       }
     },
     {
+      title: '',
       description: 'Retrieve each video id, title, middle interesting moment time, and smallest boxart url.',
       data: {
         movieLists: movieLists2()
@@ -437,6 +456,7 @@ return movieLists.concatMap(category =>
       }
     },
     {
+      title: '',
       description: 'Convert Arrays to Trees.',
       data: {
         lists: powerLists(),
@@ -476,6 +496,7 @@ return lists.map(category => ({
       }
     },
     {
+      title: '',
       description: 'Convert Arrays to Trees.',
       data: {
         lists: powerLists(),
