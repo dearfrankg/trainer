@@ -6,14 +6,13 @@ import { bindActionCreators } from 'redux'
 import compile from 'utils/compiler'
 import Button from 'components/Button'
 import jsonCompare from 'utils/jsonCompare'
-console.log(22, jsonCompare)
 
 class Code extends Component {
 
   compileAndRun = (code, scope = {}) => {
     try {
-      const compiledCode = compile(code, scope)
-      return eval(compiledCode).apply(null, [scope.problemData]) // eslint-disable-line
+      const compiledCode = compile(code)
+      return eval(compiledCode).apply(null, [scope]) // eslint-disable-line
     } catch (e) {
       return 'error'
     }
@@ -25,7 +24,6 @@ class Code extends Component {
       problemData: currentProblem.data,
       jsonCompare
     }
-    console.log(23, scope)
     const info = {
       code
     }

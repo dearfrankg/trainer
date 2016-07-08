@@ -399,9 +399,6 @@ function intro () {
   `
   return converter.makeHtml(markdownText)
 }
-
-
-
 // console.log([].xconcatAll)
 // console.log([].xconcatMap)
 // var foo = function (a) {

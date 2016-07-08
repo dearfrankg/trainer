@@ -1,8 +1,8 @@
 import { transform } from 'babel-standalone';
 
-const compile = (code, scope = {}) => {
+const compile = (code) => {
   return transform(`
-    (function (${Object.keys(scope).join(',')}) {
+    (function (scope) {
       ${code}
     })
     `, { presets: ['es2015', 'react', 'stage-1'] }).code
