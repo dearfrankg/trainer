@@ -1,716 +1,1023 @@
 import showdown from 'showdown'
 import jsonCompare from 'utils/jsonCompare'
 
-const results = {
-  a: `
-    ["one", "two", "three"]
-  `,
-  b: `
-    [
-      { "id": 70111470, "title": "Die Hard" },
-      { "id": 654356453, "title": "Bad Boys" },
-      { "id": 65432445, "title": "The Chamber" },
-      { "id": 675465, "title": "Fracture" }
-    ]
-  `,
-  c: `
-    [
-      { "id": 654356453,
-        "title": "Bad Boys",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys.jpg",
-        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
-        "rating": [ 5 ],
-        "bookmark": [
-            { "id": 432534, "time": 65876586 }
-        ]
-      },
-      { "id": 675465,
-        "title": "Fracture",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/Fracture.jpg",
-        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
-        "rating": [ 5 ],
-        "bookmark": [
-          { "id": 432534, "time": 65876586 }
-        ]
-      }
-    ]
-  `,
-  d: `
-    [ 654356453, 675465 ]
-  `,
-  e: `
-    [ 70111470, 654356453, 65432445, 675465 ]
-  `,
-  f: `
-    [ 70111470, 654356453, 65432445, 675465 ]
-  `,
-  g: `
-    [
-      { "id": 70111470,
-        "title": "Die Hard",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/DieHard150.jpg"
-      },
-      { "id": 654356453,
-        "title": "Bad Boys",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys150.jpg"
-      },
-      { "id": 65432445,
-        "title": "The Chamber",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/TheChamber150.jpg"
-      },
-      { "id": 675465,
-        "title": "Fracture",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/Fracture150.jpg"
-      }
-    ]
-  `,
-  h: `
-    [
-      { "id": 70111470,
-        "title": "Die Hard",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/DieHard150.jpg"
-      },
-      { "id": 654356453,
-        "title": "Bad Boys",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys150.jpg"
-      },
-      { "id": 65432445,
-        "title": "The Chamber",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/TheChamber150.jpg"
-      },
-      { "id": 675465,
-        "title": "Fracture",
-        "boxart": "http://cdn-0.nflximg.com/images/2891/Fracture150.jpg"
-      }
-    ]
-  `
-}
-
-export default {
+const quiz = {
   quizName: 'Apply array methods',
   quizIntro: intro(),
   quizStarted: false,
   problemList: [
-    {
-      title: '',
-      description: 'Traverse names using xforEach to return an array of names.',
-      data: {
-        names: names()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {names} = scope.problemData
-const result = []
-names.xforEach((name) => result.push(name))
-return result
-        `,
-        result: getResultJS('a'),
-        checkUserResult: `
-function checkScript () {
-  const tests = {
-    CODE_USES_METHOD: /xforEach/.test(info.code),
-    PERFORMS_CORRECTLY: scope.jsonCompare(userScript(), ${getResult('a')})
-  }
-  return (
-    tests.CODE_USES_METHOD &&
-    tests.PERFORMS_CORRECTLY
-  )
+    problem1(), problem2(), problem3(), problem4(), problem5(),
+    problem6(), problem7(), problem8(), problem9(), problem10(),
+    problem11(), problem12(), problem13(), problem14(), problem15(),
+    problem16(), problem17()
+
+  ]
 }
-// return resultObject
-//.........................
-return {
-  runResult: userScript(),
-  successResult: checkScript()
-}
-        `
-      }
+
+export default quiz
+
+function problem1 () {
+  return {
+    title: '',
+    description: 'Traverse names using xforEach to return an array of names.',
+    data: {
+      names: names()
     },
-    {
-      title: '',
-      description: 'Project a collection containing id and title using xmap.',
-      data: {
-        newReleases: newReleases()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {newReleases} = scope.problemData
-return newReleases.xmap((movie) => ({ id: movie.id, title: movie.title }))
-        `,
-        result: getResultJS('b'),
-        checkUserResult: `
-function checkScript () {
-  const tests = {
-    CODE_USES_METHOD: /xmap/.test(info.code),
-    PERFORMS_CORRECTLY: scope.jsonCompare(
-      userScript(),
-      ${getResult('b')}
-    )
-  }
-  console.log(tests)
-  return (
-    tests.CODE_USES_METHOD &&
-    tests.PERFORMS_CORRECTLY
-  )
-}
-// return resultObject
-//.........................
-return {
-  runResult: userScript(),
-  successResult: checkScript()
-}
-        `
-      }
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
     },
-    {
-      title: '',
-      description: 'Capture videos with 5.0 rating using xfilter.',
-      data: {
-        newReleases: newReleases()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {newReleases} = scope.problemData
-return newReleases.xfilter((movie) => movie.rating == 5.0)
-        `,
-        result: getResultJS('c'),
-        checkUserResult: `
-function checkScript () {
-  const tests = {
-    CODE_USES_METHOD: /xfilter/.test(info.code),
-    PERFORMS_CORRECTLY: scope.jsonCompare(
-      userScript(),
-      ${getResult('c')}
-    )
+    solution: {
+      algorithm: `
+  const {names} = scope.problemData
+  const result = []
+  names.xforEach((name) => result.push(name))
+  return result
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
   }
-  console.log(tests)
-  return (
-    tests.CODE_USES_METHOD &&
-    tests.PERFORMS_CORRECTLY
-  )
-}
-// return resultObject
-//.........................
-return {
-  runResult: userScript(),
-  successResult: checkScript()
-}
-      `
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          CODE_USES_METHOD: /xforEach/.test(info.code),
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+        return (
+          tests.CODE_USES_METHOD &&
+          tests.PERFORMS_CORRECTLY
+        )
       }
-    },
-    {
-      title: '',
-      description: 'Capture id of videos with 5.0 rating using chain of xfilter and xmap.',
-      data: {
-        newReleases: newReleases()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {newReleases} = scope.problemData
-return newReleases
-  .xfilter(movie => movie.rating == 5.0)
-  .xmap(movie => movie.id)
-        `,
-        result: getResultJS('c'),
-        checkUserResult: `
-function checkScript () {
-  const tests = {
-    CODE_USES_METHOD: /xfilter/.test(info.code)
-    && /xmap/.test(info.code),
-    PERFORMS_CORRECTLY: scope.jsonCompare(
-      userScript(),
-      ${getResult('d')}
-    )
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
   }
-  console.log(tests)
-  return (
-    tests.CODE_USES_METHOD &&
-    tests.PERFORMS_CORRECTLY
-  )
+
+  function getResult () {
+    return [ 'one', 'two', 'three' ]
+  }
 }
-// return resultObject
-//.........................
-return {
-  runResult: userScript(),
-  successResult: checkScript()
-}
-      `
-      }
+
+function problem2 () {
+  return {
+    title: '',
+    description: 'Project a collection containing id and title using xmap.',
+    data: {
+      newReleases: newReleases()
     },
-    {
-      title: '',
-      description: 'Flatten the movieLists array into an array of video ids.',
-      data: {
-        movieLists: movieLists()
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {newReleases} = scope.problemData
+  return newReleases.xmap((movie) => ({ id: movie.id, title: movie.title }))
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          CODE_USES_METHOD: /xmap/.test(info.code),
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+        return (
+          tests.CODE_USES_METHOD &&
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { id: 70111470, title: 'Die Hard' },
+      { id: 654356453, title: 'Bad Boys' },
+      { id: 65432445, title: 'The Chamber' },
+      { id: 675465, title: 'Fracture' }
+    ]
+  }
+}
+
+function problem3 () {
+  return {
+    title: '',
+    description: 'Capture videos with 5.0 rating using xfilter.',
+    data: {
+      newReleases: newReleases()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {newReleases} = scope.problemData
+  return newReleases.xfilter((movie) => movie.rating == 5.0)
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          CODE_USES_METHOD: /xfilter/.test(info.code),
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+        return (
+          tests.CODE_USES_METHOD &&
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { id: 654356453,
+        title: 'Bad Boys',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys.jpg',
+        uri: 'http://api.netflix.com/catalog/titles/movies/70111470',
+        rating: [ 5 ],
+        bookmark: [
+          { id: 432534, time: 65876586 }
+        ]
       },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {movieLists} = scope.problemData
-return movieLists
+      { id: 675465,
+        title: 'Fracture',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture.jpg',
+        uri: 'http://api.netflix.com/catalog/titles/movies/70111470',
+        rating: [ 5 ],
+        bookmark: [
+          { id: 432534, time: 65876586 }
+        ]
+      }
+    ]
+  }
+}
+
+function problem4 () {
+  return {
+    title: '',
+    description: 'Capture id of videos with 5.0 rating using chain of xfilter and xmap.',
+    data: {
+      newReleases: newReleases()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {newReleases} = scope.problemData
+  return newReleases
+    .xfilter(movie => movie.rating == 5.0)
+    .xmap(movie => movie.id)
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          CODE_USES_METHOD: (
+            /xfilter/.test(info.code) &&
+            /xmap/.test(info.code)
+          ),
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+        return (
+          tests.CODE_USES_METHOD &&
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [ 654356453, 675465 ]
+  }
+}
+
+function problem5 () {
+  return {
+    title: '',
+    description: 'Flatten the movieLists array into an array of video ids.',
+    data: {
+      movieLists: movieLists()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {movieLists} = scope.problemData
+  return movieLists
   .reduce((acc, category) => {
     category.videos.forEach(movie => acc.push(movie.id))
     return acc
   }, [])
-        `,
-        result: getResultJS('e'),
-        checkUserResult: `
-function checkScript () {
-  const tests = {
-    PERFORMS_CORRECTLY: scope.jsonCompare(
-      userScript(),
-      ${getResult('e')}
-    )
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
   }
-  return (
-    tests.PERFORMS_CORRECTLY
-  )
-}
-// return resultObject
-//.........................
-return {
-  runResult: userScript(),
-  successResult: checkScript()
-}
-      `
-      }
-    },
-    {
-      title: '',
-      description: 'Flatten the movieLists array into an array of video ids using map and concatAll.',
-      data: {
-        movieLists: movieLists()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {movieLists} = scope.problemData
-return movieLists
-  .xmap(category => category.videos.xmap(video => video.id))
-  .xconcatAll()
-        `,
-        result: getResultJS('f'),
-        checkUserResult: `
-function checkScript () {
-  const tests = {
-    PERFORMS_CORRECTLY: scope.jsonCompare(
-      userScript(),
-      ${getResult('f')}
-    )
-  }
-  return (
-    tests.PERFORMS_CORRECTLY
-  )
-}
-// return resultObject
-//.........................
-return {
-  runResult: userScript(),
-  successResult: checkScript()
-}
-      `
-      }
-    },
-    {
-      title: '',
-      description: 'Retrieve id, title, and a 150x200 boxarts url for every video.',
-      data: {
-        movieLists: movieLists()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {movieLists} = scope.problemData
-return movieLists.xmap(category =>
-  category.videos.xmap(video =>
-    video.boxarts
-      .xfilter(boxart => boxart.width === 150)
-      .xmap(boxart => ({id: video.id, title: video.title, boxart: boxart.url}))
-  )
-  .xconcatAll()
-)
-.xconcatAll()
-        `,
-        result: getResultJS('g'),
-        checkUserResult: `
-function checkScript () {
-  const tests = {
-    PERFORMS_CORRECTLY: scope.jsonCompare(
-      userScript(),
-      ${getResult('g')}
-    )
-  }
-  return (
-    tests.PERFORMS_CORRECTLY
-  )
-}
-// return resultObject
-//.........................
-return {
-  runResult: userScript(),
-  successResult: checkScript()
-}
-      `
-      }
-    },
-    {
-      title: '',
-      description: 'Retrieve id, title, and a 150x200 boxarts url for every video using concatMap.',
-      data: {
-        movieLists: movieLists()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {movieLists} = scope.problemData
-return movieLists.xconcatMap(category =>
-  category.videos.xconcatMap(video =>
-    video.boxarts
-      .xfilter(boxart => boxart.width === 150)
-      .xmap(boxart => ({id: video.id, title: video.title, boxart: boxart.url}))
-  )
-)
-        `,
-        result: getResultJS('h'),
-        checkUserResult: `
-function checkScript () {
-  const tests = {
-    PERFORMS_CORRECTLY: scope.jsonCompare(
-      userScript(),
-      ${getResult('h')}
-    )
-  }
-  return (
-    tests.PERFORMS_CORRECTLY
-  )
-}
-// return resultObject
-//.........................
-return {
-  runResult: userScript(),
-  successResult: checkScript()
-}
-      `
 
-      }
-    },
-    {
-      title: '',
-      description: 'Use forEach to find the largest boxart.',
-      data: {
-        boxarts: boxarts()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {boxarts} = problemData
-let currentSize
-let maxSize = -1
-let largestBoxart
-boxarts.forEach((boxart) => {
-  currentSize = boxart.width * boxart.height
-  if (currentSize > maxSize) {
-    largestBoxart = boxart
-    maxSize = currentSize
-  }
-})
-return largestBoxart
-        `,
-        result: {
-          width: 425,
-          height: 150,
-          url: 'http://cdn-0.nflximg.com/images/2891/Fracture425.jpg'
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
         }
-      }
-    },
-    {
-      title: '',
-      description: 'Use reduce to retrieve the largest rating.',
-      data: {
-        ratings: ratings()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {ratings} = problemData
-return ratings.reduce((acc, curr) => (acc > curr) ? acc : curr, 0)
-        `,
-        result: 5
-      }
-    },
-    {
-      title: '',
-      description: 'Use reduce to retrieve the url of the largest boxart.',
-      data: {
-        boxarts: boxarts()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {boxarts} = problemData
-return boxarts
-  .reduce((acc, curr) => (acc.width * acc.height > curr.width * curr.height) ? [acc] : [curr], {})
-  .map(art => art.url)
-        `,
-        result: [ 'http://cdn-0.nflximg.com/images/2891/Fracture425.jpg' ]
-      }
-    },
-    {
-      title: '',
-      description: 'Retrieve the id, title, and smallest box art url for every video.',
-      data: {
-        movieLists: movieLists()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {movieLists} = problemData
-return movieLists.concatMap(category =>
-  category.videos.concatMap(video =>
-    video.boxarts.reduce((acc, curr) =>
-      (acc.width * acc.height < curr.width * curr.height) ? [acc] : [curr],
-      {}
-    )
-    .map(art => {
-      return {id: video.id, title: video.title, boxart: art.url}
-    })
-  )
-)
-      `,
-        result: [
-          { id: 70111470, title: 'Die Hard', boxart: 'http://cdn-0.nflximg.com/images/2891/DieHard200.jpg' },
-          { id: 654356453, title: 'Bad Boys', boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys150.jpg' },
-          { id: 65432445, title: 'The Chamber', boxart: 'http://cdn-0.nflximg.com/images/2891/TheChamber200.jpg' },
-          { id: 675465, title: 'Fracture', boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture300.jpg' }
-        ]
-      }
-    },
-    {
-      title: '',
-      description: 'Combine videos and bookmarks by index using for-loop.',
-      data: {
-        videos: videos(),
-        bookmarks: bookmarks()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {videos, bookmarks} = problemData
-let videoIdAndBookmarkIdPairs = [];
 
-for(let counter = 0; counter < Math.min(videos.length, bookmarks.length); counter++) {
-  videoIdAndBookmarkIdPairs.push({videoId: videos[counter].id, bookmarkId: bookmarks[counter].id})
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [ 70111470, 654356453, 65432445, 675465 ]
+  }
 }
 
-return videoIdAndBookmarkIdPairs;
-      `,
-        result: [
-          { videoId: 65432445, bookmarkId: 470 },
-          { videoId: 675465, bookmarkId: 453 },
-          { videoId: 70111470, bookmarkId: 445 }
-        ]
-      }
+function problem6 () {
+  return {
+    title: '',
+    description: 'Flatten the movieLists array into an array of video ids using xmap and xconcatAll.',
+    data: {
+      movieLists: movieLists()
     },
-    {
-      title: '',
-      description: 'Combine videos and bookmarks by index using Array.zip.',
-      data: {
-        videos: videos(),
-        bookmarks: bookmarks()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {videos, bookmarks} = problemData
-return Array.zip(videos, bookmarks, (a,b) => ({ videoId: a.id, bookmarkId: b.id }))
-      `,
-        result: [
-          { videoId: 65432445, bookmarkId: 470 },
-          { videoId: 675465, bookmarkId: 453 },
-          { videoId: 70111470, bookmarkId: 445 }
-        ]
-      }
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
     },
-    {
-      title: '',
-      description: 'Retrieve each video id, title, middle interesting moment time, and smallest boxart url.',
-      data: {
-        movieLists: movieLists2()
+    solution: {
+      algorithm: `
+  const {movieLists} = scope.problemData
+  return movieLists
+    .xmap(category => category.videos.xmap(video => video.id))
+    .xconcatAll()
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [ 70111470, 654356453, 65432445, 675465 ]
+  }
+}
+
+function problem7 () {
+  return {
+    title: '',
+    description: 'Retrieve id, title, and a 150x200 boxarts url for every video.',
+    data: {
+      movieLists: movieLists()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {movieLists} = scope.problemData
+  return movieLists.xmap(category =>
+    category.videos.xmap(video =>
+      video.boxarts
+        .xfilter(boxart => boxart.width === 150)
+        .xmap(boxart => ({id: video.id, title: video.title, boxart: boxart.url}))
+    ).xconcatAll()
+  ).xconcatAll()
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { id: 70111470,
+        title: 'Die Hard',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/DieHard150.jpg'
       },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
+      { id: 654356453,
+        title: 'Bad Boys',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys150.jpg'
       },
-      solution: {
-        algorithm: `
-const {movieLists} = problemData
-return movieLists.concatMap(category =>
-  category.videos.concatMap(video =>
-    Array.zip(
-      video.boxarts.reduce(
-        (acc, curr) => (acc.width * acc.height < curr.width * curr.height) ? [acc] : [curr]
-        , {}
-      ),
-      video.interestingMoments.filter(moment => moment.type == 'Middle'),
-      (a,b) => ({id: video.id, title: video.title, time: b.time, url: a.url})
+      { id: 65432445,
+        title: 'The Chamber',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/TheChamber150.jpg'
+      },
+      { id: 675465,
+        title: 'Fracture',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture150.jpg'
+      }
+    ]
+  }
+}
+
+function problem8 () {
+  return {
+    title: '',
+    description: 'Retrieve id, title, and a 150x200 boxarts url for every video using xconcatMap.',
+    data: {
+      movieLists: movieLists()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {movieLists} = scope.problemData
+  return movieLists.xconcatMap(category =>
+    category.videos.xconcatMap(video =>
+      video.boxarts
+        .xfilter(boxart => boxart.width === 150)
+        .xmap(boxart => ({id: video.id, title: video.title, boxart: boxart.url}))
     )
   )
-)
       `,
-        result: [
-          { id: 70111470,
-            title: 'Die Hard',
-            time: 323133,
-            url: 'http://cdn-0.nflximg.com/images/2891/DieHard200.jpg'
-          },
-          { id: 654356453,
-            title: 'Bad Boys',
-            time: 6575665,
-            url: 'http://cdn-0.nflximg.com/images/2891/BadBoys140.jpg'
-          },
-          { id: 65432445,
-            title: 'The Chamber',
-            time: 3452343,
-            url: 'http://cdn-0.nflximg.com/images/2891/TheChamber200.jpg'
-          },
-          { id: 675465,
-            title: 'Fracture',
-            time: 3453434,
-            url: 'http://cdn-0.nflximg.com/images/2891/Fracture300.jpg'
-          }
-        ]
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
       }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { id: 70111470,
+        title: 'Die Hard',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/DieHard150.jpg'
+      },
+      { id: 654356453,
+        title: 'Bad Boys',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys150.jpg'
+      },
+      { id: 65432445,
+        title: 'The Chamber',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/TheChamber150.jpg'
+      },
+      { id: 675465,
+        title: 'Fracture',
+        boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture150.jpg'
+      }
+    ]
+  }
+}
+
+function problem9 () {
+  return {
+    title: '',
+    description: 'Use xforEach to find the largest boxart.',
+    data: {
+      boxarts: boxarts()
     },
-    {
-      title: '',
-      description: 'Convert Arrays to Trees.',
-      data: {
-        lists: powerLists(),
-        videos: powerVideos()
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {boxarts} = scope.problemData
+  let currentSize
+  let maxSize = -1
+  let largestBoxart
+  boxarts.xforEach((boxart) => {
+    currentSize = boxart.width * boxart.height
+    if (currentSize > maxSize) {
+      largestBoxart = boxart
+      maxSize = currentSize
+    }
+  })
+  return largestBoxart
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return {
+      width: 425,
+      height: 150,
+      url: 'http://cdn-0.nflximg.com/images/2891/Fracture425.jpg'
+    }
+  }
+}
+
+function problem10 () {
+  return {
+    title: '',
+    description: 'Use xreduce to retrieve the largest rating.',
+    data: {
+      ratings: ratings()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {ratings} = scope.problemData
+  return ratings.xreduce((acc, curr) => (acc > curr) ? acc : curr, 0)
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return 5
+  }
+}
+
+function problem11 () {
+  return {
+    title: '',
+    description: 'Use xreduce to retrieve the url of the largest boxart.',
+    data: {
+      boxarts: boxarts()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {boxarts} = scope.problemData
+  return boxarts
+    .xreduce((acc, curr) => (acc.width * acc.height > curr.width * curr.height) ? [acc] : [curr], {})
+    .xmap(art => art.url)
+      `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [ 'http://cdn-0.nflximg.com/images/2891/Fracture425.jpg' ]
+  }
+}
+
+function problem12 () {
+  return {
+    title: '',
+    description: 'Retrieve the id, title, and smallest box art url for every video.',
+    data: {
+      movieLists: movieLists()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {movieLists} = scope.problemData
+  return movieLists.xconcatMap(category =>
+    category.videos.xconcatMap(video =>
+      video.boxarts.xreduce((acc, curr) =>
+        (acc.width * acc.height < curr.width * curr.height) ? [acc] : [curr],
+        {}
+      )
+      .xmap(art => {
+        return {id: video.id, title: video.title, boxart: art.url}
+      })
+    )
+  )
+    `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { id: 70111470, title: 'Die Hard', boxart: 'http://cdn-0.nflximg.com/images/2891/DieHard200.jpg' },
+      { id: 654356453, title: 'Bad Boys', boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys150.jpg' },
+      { id: 65432445, title: 'The Chamber', boxart: 'http://cdn-0.nflximg.com/images/2891/TheChamber200.jpg' },
+      { id: 675465, title: 'Fracture', boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture300.jpg' }
+    ]
+  }
+}
+
+function problem13 () {
+  return {
+    title: '',
+    description: 'Combine videos and bookmarks by index using for-loop.',
+    data: {
+      videos: videos(),
+      bookmarks: bookmarks()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {videos, bookmarks} = scope.problemData
+  let videoIdAndBookmarkIdPairs = [];
+
+  for(let counter = 0; counter < Math.min(videos.length, bookmarks.length); counter++) {
+    videoIdAndBookmarkIdPairs.push({videoId: videos[counter].id, bookmarkId: bookmarks[counter].id})
+  }
+
+  return videoIdAndBookmarkIdPairs;
+    `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { videoId: 65432445, bookmarkId: 470 },
+      { videoId: 675465, bookmarkId: 453 },
+      { videoId: 70111470, bookmarkId: 445 }
+    ]
+  }
+}
+
+function problem14 () {
+  return {
+    title: '',
+    description: 'Combine videos and bookmarks by index using Array.zip.',
+    data: {
+      videos: videos(),
+      bookmarks: bookmarks()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {videos, bookmarks} = scope.problemData
+  return Array.xzip(videos, bookmarks, (a,b) => ({ videoId: a.id, bookmarkId: b.id }))
+    `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { videoId: 65432445, bookmarkId: 470 },
+      { videoId: 675465, bookmarkId: 453 },
+      { videoId: 70111470, bookmarkId: 445 }
+    ]
+  }
+}
+
+function problem15 () {
+  return {
+    title: '',
+    description: 'Retrieve each video id, title, middle interesting moment time, and smallest boxart url.',
+    data: {
+      movieLists: movieLists2()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {movieLists} = scope.problemData
+  return movieLists.xconcatMap(category =>
+    category.videos.xconcatMap(video =>
+      Array.xzip(
+        video.boxarts.xreduce(
+          (acc, curr) => (acc.width * acc.height < curr.width * curr.height) ? [acc] : [curr]
+          , {}
+        ),
+        video.interestingMoments.xfilter(moment => moment.type == 'Middle'),
+        (a,b) => ({id: video.id, title: video.title, time: b.time, url: a.url})
+      )
+    )
+  )
+    `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { id: 70111470,
+        title: 'Die Hard',
+        time: 323133,
+        url: 'http://cdn-0.nflximg.com/images/2891/DieHard200.jpg'
       },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
+      { id: 654356453,
+        title: 'Bad Boys',
+        time: 6575665,
+        url: 'http://cdn-0.nflximg.com/images/2891/BadBoys140.jpg'
       },
-      solution: {
-        algorithm: `
-const {lists, videos} = problemData
-return lists.map(category => ({
+      { id: 65432445,
+        title: 'The Chamber',
+        time: 3452343,
+        url: 'http://cdn-0.nflximg.com/images/2891/TheChamber200.jpg'
+      },
+      { id: 675465,
+        title: 'Fracture',
+        time: 3453434,
+        url: 'http://cdn-0.nflximg.com/images/2891/Fracture300.jpg'
+      }
+    ]
+  }
+}
+
+function problem16 () {
+  return {
+    title: '',
+    description: 'Convert Arrays to Trees.',
+    data: {
+      lists: powerLists(),
+      videos: powerVideos()
+    },
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {lists, videos} = scope.problemData
+  return lists.xmap(category => ({
   name: category.name,
   videos: videos
-    .filter(video => video.listId == category.id)
-    .map(video => ({id: video.id, title: video.title}))
-}))
-      `,
-        result: [
-          {
-            name: 'New Releases',
-            videos: [
-              { id: 65432445, title: 'The Chamber' },
-              { id: 675465, title: 'Fracture' }
-            ]
-          },
-          {
-            name: 'Thrillers',
-            videos: [
-              { id: 70111470, title: 'Die Hard' },
-              { id: 654356453, title: 'Bad Boys' }
-            ]
-          }
+    .xfilter(video => video.listId == category.id)
+    .xmap(video => ({id: video.id, title: video.title}))
+  }))
+    `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      {
+        name: 'New Releases',
+        videos: [
+          { id: 65432445, title: 'The Chamber' },
+          { id: 675465, title: 'Fracture' }
+        ]
+      },
+      {
+        name: 'Thrillers',
+        videos: [
+          { id: 70111470, title: 'Die Hard' },
+          { id: 654356453, title: 'Bad Boys' }
         ]
       }
+    ]
+  }
+}
+
+function problem17 () {
+  return {
+    title: '',
+    description: 'Convert Arrays to Trees.',
+    data: {
+      lists: powerLists(),
+      videos: powerVideos(),
+      boxarts: powerBoxarts(),
+      bookmarks: powerBookmarks()
     },
-    {
-      title: '',
-      description: 'Convert Arrays to Trees.',
-      data: {
-        lists: powerLists(),
-        videos: powerVideos(),
-        boxarts: powerBoxarts(),
-        bookmarks: powerBookmarks()
-      },
-      user: {
-        algorithm: '',
-        result: '',
-        solved: false
-      },
-      solution: {
-        algorithm: `
-const {lists, videos, boxarts, bookmarks} = problemData
-return lists.map(category => ({
+    user: {
+      algorithm: '',
+      result: '',
+      solved: false
+    },
+    solution: {
+      algorithm: `
+  const {lists, videos, boxarts, bookmarks} = scope.problemData
+  return lists.xmap(category => ({
     name: category.name,
     videos: videos
-      .filter(video => video.listId == category.id)
-      .concatMap(video =>
-        Array.zip(
-          bookmarks.filter(b => b.videoId == video.id).map(b => b.time),
-          boxarts.filter(b => b.videoId == video.id)
-            .reduce(
+      .xfilter(video => video.listId == category.id)
+      .xconcatMap(video =>
+        Array.xzip(
+          bookmarks.xfilter(b => b.videoId == video.id).map(b => b.time),
+          boxarts.xfilter(b => b.videoId == video.id)
+            .xreduce(
               (acc, curr) => (acc.width * acc.height < curr.width * curr.height) ? [acc] : [curr],
               {}
             )
-            .map(b => b.url),
+            .xmap(b => b.url),
           (time, boxart) => {
             return {
               id: video.id,
@@ -721,41 +1028,67 @@ return lists.map(category => ({
           }
         )
       )
-}))
-      `,
-        result: [
-          { name: 'New Releases',
-            videos: [
-              { id: 65432445,
-                title: 'The Chamber',
-                time: 32432,
-                boxart: 'http://cdn-0.nflximg.com/images/2891/TheChamber200.jpg'
-              },
-              { id: 675465,
-                title: 'Fracture',
-                time: 3534543,
-                boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture300.jpg'
-              }
-            ]
+  }))
+    `,
+      result: getResult(),
+      checkUserResult: checkUserResultsScript()
+    }
+  }
+
+  function checkUserResultsScript () {
+    return `
+      function checkScript () {
+        const tests = {
+          PERFORMS_CORRECTLY: scope.jsonCompare(
+            userScript(),
+            ${JSON.stringify(getResult())}
+          )
+        }
+
+        return (
+          tests.PERFORMS_CORRECTLY
+        )
+      }
+
+      return {
+        runResult: userScript(),
+        successResult: checkScript()
+      }
+    `
+  }
+
+  function getResult () {
+    return [
+      { name: 'New Releases',
+        videos: [
+          { id: 65432445,
+            title: 'The Chamber',
+            time: 32432,
+            boxart: 'http://cdn-0.nflximg.com/images/2891/TheChamber200.jpg'
           },
-          { name: 'Thrillers',
-            videos: [
-              { id: 70111470,
-                title: 'Die Hard',
-                time: 645243,
-                boxart: 'http://cdn-0.nflximg.com/images/2891/DieHard200.jpg'
-              },
-              { id: 654356453,
-                title: 'Bad Boys',
-                time: 984934,
-                boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys140.jpg'
-              }
-            ]
+          { id: 675465,
+            title: 'Fracture',
+            time: 3534543,
+            boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture300.jpg'
+          }
+        ]
+      },
+      { name: 'Thrillers',
+        videos: [
+          { id: 70111470,
+            title: 'Die Hard',
+            time: 645243,
+            boxart: 'http://cdn-0.nflximg.com/images/2891/DieHard200.jpg'
+          },
+          { id: 654356453,
+            title: 'Bad Boys',
+            time: 984934,
+            boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys140.jpg'
           }
         ]
       }
-    }
-  ]
+    ]
+  }
 }
 
 function names () {
@@ -1073,7 +1406,7 @@ const customArrayMethods = {
   },
   xconcatMap: function (fnReturningArray) {
     return this.map((item) => fnReturningArray(item))
-      .concatAll()
+      .xconcatAll()
   },
   xzip: function (left, right, combinerFn) {
     let result = []
@@ -1112,20 +1445,4 @@ function intro () {
 ## Apply Array Methods
   `
   return converter.makeHtml(markdownText)
-}
-
-function getResult (item) {
-  return results[item]
-}
-
-function getResultJS (item) {
-  let str = results[item]
-  str = str.replace(/\n/g, '')
-  str = str.replace(/\s+/g, ' ')
-  const result = JSON.parse(str)
-  return result
-}
-
-function getResultJSON (item) {
-  return JSON.stringify(results[item])
 }

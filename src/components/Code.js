@@ -14,6 +14,7 @@ class Code extends Component {
       const compiledCode = compile(code)
       return eval(compiledCode).apply(null, [scope]) // eslint-disable-line
     } catch (e) {
+      console.log('error', e)
       return 'error'
     }
   }
